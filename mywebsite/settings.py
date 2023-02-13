@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-6vo^h26+(yy@p809%z-&+&-1)*n56uf(5q4fw6h&@f1yq@kp#l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['office-testing.boost-pop.com',]
+CSRF_TRUSTED_ORIGINS = ['https://*.boost-pop.com','https://*.127.0.0.1']
+
 
 
 # Application definition
@@ -117,7 +119,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
+# Israel time zone
+TIME_ZONE = 'Asia/Jerusalem'
 
 USE_I18N = True
 
@@ -133,3 +137,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+import os
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static_cdn"),
+]
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(STATIC_ROOT, 'media_root/')
