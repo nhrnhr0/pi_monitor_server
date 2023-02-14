@@ -17,10 +17,16 @@ class TvDevice(models.Model):
     remote_last_image = models.ImageField( upload_to=image_path) #, storage=OverwriteStorage())
     
     remote_last_image_updated = models.DateTimeField(null=True)
-    is_socket_connected = models.BooleanField(default=False)
+    # is_socket_connected = models.BooleanField(default=False)
     socket_status_updated = models.DateTimeField(null=True)
-    hdmi_status = models.CharField(max_length=100, default='unknown')
+    cec_hdmi_status = models.CharField(max_length=100, default='unknown')
     
+    
+    def is_socket_connected_live(self):
+        from .consumers import open_socket_connections
+        return self.device_id in open_socket_connections
+    is_socket_connected_live.short_description = 'socket connected'
+    is_socket_connected_live.boolean = True
     # def save(self, *args, **kwargs):
     #     try:
     #         this = TvDevice.objects.get(id=self.id)

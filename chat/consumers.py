@@ -23,14 +23,14 @@ class ChatConsumer(WebsocketConsumer):
         tv_device, created = TvDevice.objects.get_or_create(device_id=device_id)
         self.tv_device = tv_device
         print('got message from ', device_id)
-        tv_device.is_socket_connected = True
+        # tv_device.is_socket_connected = True
         tv_device.socket_status_updated = timezone.now()
         open_socket_connections[device_id] = self
         if(message_type == 'status'):
             raw_image = text_data_json['data']['img']
             raw_image = base64.b64decode(raw_image)
             
-            tv_device.hdmi_status = text_data_json['data']['hdmi_status']
+            tv_device.cec_hdmi_status = text_data_json['data']['hdmi_status']
             
             # settings.MEDIA_ROOT
             # img_url = 'static/media_root/last_images/' + str(tv_device.id) + '/image.png'
@@ -47,7 +47,7 @@ class ChatConsumer(WebsocketConsumer):
         print(tv_device.id, ' saved', tv_device.remote_last_image.url)
     
     def disconnect(self, code):
-        self.tv_device.is_socket_connected = False
+        # self.tv_device.is_socket_connected = False
         self.tv_device.socket_status_updated = timezone.now()
         self.tv_device.status = 'offline - ' + str(code)
         open_socket_connections.pop(self.tv_device.device_id, None)

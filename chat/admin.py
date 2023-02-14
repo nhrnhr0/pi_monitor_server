@@ -6,9 +6,9 @@ import json
 
 # Register your models here.
 class TvDeviceAdmin(admin.ModelAdmin):
-    list_display = ('id', 'image_tag', 'name','remote_status','is_socket_connected','humanize_remote_status_updated_ago','humanize_socket_status_updated_ago','device_id',)
-    list_filter = ('device_id','name','remote_status','is_socket_connected','socket_status_updated',)
-    actions = ['hdmi_cec_off', 'hdmi_cec_on']
+    list_display = ('id', 'image_tag', 'name','cec_hdmi_status','is_socket_connected_live','humanize_socket_status_updated_ago','device_id','remote_status', )
+    list_filter = ('device_id','name','cec_hdmi_status','remote_status','socket_status_updated',)
+    actions = ['hdmi_cec_off', 'hdmi_cec_on','reboot_device','exit_socket_app','relaunch_kiosk_browser']
     def hdmi_cec_on(self, request, queryset):
         from .consumers import open_socket_connections
         
